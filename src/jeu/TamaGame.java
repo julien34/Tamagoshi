@@ -7,6 +7,7 @@ import jeu.Utilisateur;
 public class TamaGame {
 	
 	private ArrayList<Tamagoshi> listeDeTamagoshi = new ArrayList<Tamagoshi>();
+	private int difficulte = 0;
 	
 	/**
 	 * Constructeur sans parammètres, qui créer un jeu.
@@ -21,11 +22,13 @@ public class TamaGame {
 	 */
 	public void initialisation(){
 		
+		//Saisie au clavier du nombre de Tamagoshis à crer :
 		System.out.println("Combien voulez vous créer de Tamagoshis ?");
 		String nbDeTamagoshisString = Utilisateur.saisieClavier();
 		int nbDeTamagoshisInt = new Integer(nbDeTamagoshisString);
+		this.difficulte = nbDeTamagoshisInt;
 		
-		//Boucle qui créer des Tamagoshis au nombre choisi par l'utilisateur
+		//Boucle qui créer des Tamagoshis au nombre choisi par l'utilisateur :
 		for (int i=0 ; i<nbDeTamagoshisInt ; i++){
 			System.out.println("Nommez votre Tamagoshi "+(i+1));
 			String nomDuTamagoshi = Utilisateur.saisieClavier();
@@ -47,7 +50,7 @@ public class TamaGame {
 		
 			//Boucle pour les faire parler :
 			for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
-				if(this.listeDeTamagoshi.get(i).getPartie()){
+				if(this.listeDeTamagoshi.get(i).getEtat()){
 					this.listeDeTamagoshi.get(i).parle();
 				}
 				else{

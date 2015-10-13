@@ -64,11 +64,11 @@ public class Tamagoshi {
 			if(this.energy>this.maxEnergy){
 				this.energy = this.maxEnergy;
 			}
-			System.out.println("Merci de m'avoir donné de l'énergie.");
+			System.out.println(this.name+" : Merci de m'avoir donné de l'énergie.");
 			return true;
 		}
 		else {
-			System.out.println("Je n'ai pas faim.");
+			System.out.println(this.name+" : Je n'ai pas faim.");
 			return false;
 		}
 	}
@@ -101,14 +101,31 @@ public class Tamagoshi {
 	}
 	
 	
+	/**
+	 * Getter du nom du Tamagoshi.
+	 * @return name du Tamagoshi.
+	 */
 	public String getName(){
 		return this.name;
 	}
 	
-	public boolean getPartie(){
+	
+	/**
+	 * Getter de l'état du Tamagoshi.
+	 * @return etat du Tamagoshi.
+	 */
+	public boolean getEtat(){
 		return this.etat;
 	}
 	
+	
+	/**
+	 * Getter de l'age du Tamagoshi.
+	 * @return age du Tamagoshi.
+	 */
+	public int getAge(){
+		return this.age;
+	}
 	
 	/**
 	 * Méthode main qui lance le programme.
