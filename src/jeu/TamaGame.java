@@ -39,6 +39,18 @@ public class TamaGame {
 	
 	
 	/**
+	 * Méthode permettant de supprimer un Tamagoshi de la liste s'il est mort (énergie <=0).
+	 */
+	public void verifTamagoshi(){
+		for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
+			if(!this.listeDeTamagoshi.get(i).getEtat()){
+				this.listeDeTamagoshi.remove(i);
+			}
+		}
+	}
+	
+	
+	/**
 	 * Méthode permettant de jouer une partie complete de jeu.
 	 */
 	public void play(){
@@ -47,15 +59,13 @@ public class TamaGame {
 		
 		while(this.listeDeTamagoshi.size()>0){
 			System.out.println("\n----- Cycle No."+nbTours+" -----");
+			
+			//Vérifie que les Tamagoshis ne sont pas morts (les supprime de la liste s'ils sont mort) :
+			this.verifTamagoshi();
 		
 			//Boucle pour les faire parler :
 			for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
-				if(this.listeDeTamagoshi.get(i).getEtat()){
-					this.listeDeTamagoshi.get(i).parle();
-				}
-				else{
-					this.listeDeTamagoshi.remove(i);
-				}
+				this.listeDeTamagoshi.get(i).parle();
 			}
 			
 			System.out.println("Quel Tamagoshi souhaitez vous nourrir ?");
@@ -70,7 +80,7 @@ public class TamaGame {
 			this.listeDeTamagoshi.get(tamagoshiANourrir).mange();
 			
 			
-			//Consommation d'énergie des tamagoshis :
+			//Consommation d'énergie des Tamagoshis :
 			for(int i =0 ; i<this.listeDeTamagoshi.size() ; i++){
 				this.listeDeTamagoshi.get(i).consommeEnergie();
 			}
