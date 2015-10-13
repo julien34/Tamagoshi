@@ -92,6 +92,13 @@ public class Tamagoshi {
 	
 	
 	/**
+	 * Méthode qui ajoute 1 à l'&ge du Tamagoshi.
+	 */
+	public void vieillir(){
+		this.age++;
+	}
+	
+	/**
 	 * @param chaine (String) : représente la chaine de caractère que l'on souhaite retourner et afficher.
 	 * @return la chaine de caractère placée en paramètre.
 	 */
@@ -127,17 +134,27 @@ public class Tamagoshi {
 		return this.age;
 	}
 	
+	public int getLifeTime(){
+		return this.lifeTime;
+	}
+	
 	/**
 	 * Méthode main qui lance le programme.
 	 * @param args
 	 */
 	public static void main(String args[]){
 		//Création et affichage de l'objet tamagoshi :
-		Tamagoshi t1 = new Tamagoshi("T1");
-		System.out.println(t1.toString());
+		//Tamagoshi t1 = new Tamagoshi("T1");
+		//System.out.println(t1.toString());
 		
-		Tamagoshi t2 = new Tamagoshi("T2");
-		System.out.println(t2.toString());
+		//Tamagoshi t2 = new Tamagoshi("T2");
+		//System.out.println(t2.toString());
+		int nom = 19;
+		int denom = 20;
+		int mult = 100;
+		double calcul = ((double)nom/(double)denom)*(double)mult;
+		
+		System.out.println(calcul);
 	}
 	
 }

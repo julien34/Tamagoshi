@@ -7,7 +7,10 @@ import jeu.Utilisateur;
 public class TamaGame {
 	
 	private ArrayList<Tamagoshi> listeDeTamagoshi = new ArrayList<Tamagoshi>();
+	private ArrayList<Tamagoshi> listeDeTamagoshiMort = new ArrayList<Tamagoshi>();
 	private int difficulte = 0;
+	private double score = 0;
+	private boolean ageLimite = false;
 	
 	/**
 	 * Constructeur sans parammètres, qui créer un jeu.
@@ -39,12 +42,24 @@ public class TamaGame {
 	
 	
 	/**
-	 * Méthode permettant de supprimer un Tamagoshi de la liste s'il est mort (énergie <=0).
+	 * Méthode permettant de supprimer un Tamagoshi de la liste s'il est mort et les rajoutent dans la liste des morts (énergie <=0).
 	 */
 	public void verifTamagoshi(){
 		for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
 			if(!this.listeDeTamagoshi.get(i).getEtat()){
+				this.listeDeTamagoshiMort.add(this.listeDeTamagoshi.get(i));
 				this.listeDeTamagoshi.remove(i);
+			}
+		}
+	}
+	
+	/**
+	 * Méthode qui vérifie à chaque tour si l'age maximal des Tamagoshis est atteint.
+	 */
+	public void verifAgeMax(){
+		for (int i=0 ; i<this.listeDeTamagoshi.size(); i++){
+			if (this.listeDeTamagoshi.get(i).getAge() == listeDeTamagoshi.get(i).getLifeTime()){
+				this.ageLimite = true; 
 			}
 		}
 	}
@@ -57,11 +72,14 @@ public class TamaGame {
 		int nbTours = 0;
 		this.initialisation();
 		
-		while(this.listeDeTamagoshi.size()>0){
+		while(this.listeDeTamagoshi.size()>0 && !this.ageLimite){
 			System.out.println("\n----- Cycle No."+nbTours+" -----");
 			
-			//Vérifie que les Tamagoshis ne sont pas morts (les supprime de la liste s'ils sont mort) :
+			//Vérifie que les Tamagoshis ne sont pas tous morts (les supprime de la liste s'ils sont morts) :
 			this.verifTamagoshi();
+			
+			//Vérifie que les tamagoshis n'ont pas atteint leur age maximal :
+			this.verifAgeMax();
 		
 			//Boucle pour les faire parler :
 			for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
@@ -85,9 +103,64 @@ public class TamaGame {
 				this.listeDeTamagoshi.get(i).consommeEnergie();
 			}
 			
+			//Fait vieillir tous les Tamagoshi de la liste à la fin du tour :
+			for (int i=0; i<this.listeDeTamagoshi.size() ; i++){
+				this.listeDeTamagoshi.get(i).vieillir();
+			}
+			
 			//Incrémente le nombre de tours :
 			nbTours++;
 		}
+		
+		if(this.listeDeTamagoshi.size()<=0 || this.ageLimite){
+			this.resultat();
+		}
+	}
+	
+	/**
+	 * Méthode qui retourne un entier calculé en fonction de la partie en cours.
+	 * @return score (int) - le score de la partie en cours.
+	 */
+	public double score(){
+		int sommeAgeTamagoshis = 0;
+		int sommeAgeMaxTamagoshi = 0;
+		
+		//boucle dans la liste des vivants :
+		for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
+			sommeAgeTamagoshis += this.listeDeTamagoshi.get(i).getAge()-1;
+			sommeAgeMaxTamagoshi += 10;
+		}
+		
+		//Boucle dans la liste des morts :
+		for (int i=0 ; i<this.listeDeTamagoshiMort.size() ; i++){
+			sommeAgeTamagoshis += this.listeDeTamagoshiMort.get(i).getAge()-1;
+			sommeAgeMaxTamagoshi += 10;
+		}
+		
+		//Affichage des ages :
+		//System.out.println("somme age = "+sommeAgeTamagoshis+"\nsomme age max = "+sommeAgeMaxTamagoshi);
+		
+		//Calcul du score :
+		this.score = ((double)sommeAgeTamagoshis/(double)sommeAgeMaxTamagoshi)*(double)100;
+		
+		return this.score;
+	}
+	
+	public void resultat(){
+		this.score();
+		
+		//Affichage d'un mini bilan :
+		System.out.println("------- Partie Terminée ! -------\n\n-------- Bilan --------");
+		for (int i = 0; i < this.listeDeTamagoshi.size(); i++) {
+			System.out.println(this.listeDeTamagoshi.get(i).getName()+" a survécu et vous remercie :)");
+		}
+		
+		for (int i = 0; i < this.listeDeTamagoshiMort.size(); i++) {
+			System.out.println(this.listeDeTamagoshiMort.get(i).getName()+" n'est pas arrivé au bout et ne vous félicite pas :(");
+		}
+		
+		System.out.println("\nVotre score est de : "+(int)this.score+"%");
+		
 	}
 	
 	
