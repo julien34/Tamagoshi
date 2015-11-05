@@ -17,11 +17,14 @@ import java.util.Random;
  * @author Siauvaud Julien
  */
 public class Tamagoshi {
-	private int age, maxEnergy, energy, fun, maxFun;
-	private String name;
+	private int age, maxEnergy;
+	protected int energy;
+	protected int fun;
+	private int maxFun;
+	protected String name;
 	private static int lifeTime = 10;
 	private Random rand = new Random();
-	private boolean etat = true;
+	protected boolean etat = true;
 	
 	
 	/**
