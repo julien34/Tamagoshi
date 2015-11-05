@@ -7,6 +7,8 @@ import java.util.Random;
  * 		<li>age (int): l'age du tamagoshi.</li>
  * 		<li>maxEnergy (int) : l'énergie qu'il peut avoir au maximum.</li>
  * 		<li>energy (int) : son énergie actuelle.</li>
+ *	 	<li>maxFun (int) : le fun qu'il peut avoir au maximum.</li>
+ * 		<li>fun (int) : son fun actuel.</li>
  * 		<li>name (String) : le nom du Tamagoshi.</li>
  * 		<li>etat (Boolean) : l'état du Tamagoshi (mort ou vif).</li>
  * 		<li>lifeTime (int) : Le nombre de tours de jeu.</li>
@@ -15,7 +17,7 @@ import java.util.Random;
  * @author Siauvaud Julien
  */
 public class Tamagoshi {
-	private int age, maxEnergy, energy;
+	private int age, maxEnergy, energy, fun, maxFun;
 	private String name;
 	private static int lifeTime = 10;
 	private Random rand = new Random();
@@ -30,8 +32,10 @@ public class Tamagoshi {
 	public Tamagoshi(String chaine) {
 		this.name = chaine;
 		this.age = 0;
-		this.energy = 3 + rand.nextInt(4);
+		this.energy = 3 + rand.nextInt(4); //Random sur l'énergie entre 3 et 3+4 (7).
 		this.maxEnergy = 5 + rand.nextInt(4);
+		this.fun = 3 + rand.nextInt(4);
+		this.maxFun = 5 + rand.nextInt(4);
 	}
 	
 	/**
@@ -41,13 +45,26 @@ public class Tamagoshi {
 	public boolean parle(){
 		String etatDeForme;
 		
-		if (this.energy > 5){
-			etatDeForme = "heureux";
+		if (this.energy > 5 && this.fun > 5){
+			etatDeForme = "Tout va bien";
 			System.out.println(this.name+" : "+etatDeForme);
 			return true;
 		}
+		
+		else if (this.energy <= 5 && this.fun <= 5){
+			etatDeForme = "Je suis affamé et je m'ennuie à mourrir";
+			System.out.println(this.name+" : "+etatDeForme);
+			return false;
+		}
+		
+		else if (this.energy <= 5){
+			etatDeForme = "Je suis affamé";
+			System.out.println(this.name+" : "+etatDeForme);
+			return false;
+		}
+		
 		else {
-			etatDeForme = "affamé";
+			etatDeForme = "Je m'ennuie à mourrir";
 			System.out.println(this.name+" : "+etatDeForme);
 			return false;
 		}
@@ -66,7 +83,7 @@ public class Tamagoshi {
 			if(this.energy>this.maxEnergy){
 				this.energy = this.maxEnergy;
 			}
-			System.out.println(this.name+" : Merci de m'avoir donné de l'énergie.");
+			System.out.println(this.name+" : Merci de m'avoir donné à manger.");
 			return true;
 		}
 		else {
@@ -74,6 +91,27 @@ public class Tamagoshi {
 			return false;
 		}
 	}
+	
+	
+	/**
+	 * Méthode qui fait jouer un Tamagoshi durant un tour.
+	 * @return true dans le cas ou le Tamagoshi a joué, false dans le cas inverse.
+	 */
+	public boolean joue(){
+		if(this.maxFun>this.fun){
+			this.fun += 1+rand.nextInt(2);
+			if(this.fun>this.maxFun){
+				this.fun = this.maxFun;
+			}
+			System.out.println(this.name+" : Merci de m'avoir fait jouer.");
+			return true;
+		}
+		else {
+			System.out.println(this.name+" : Je n'ai pas envie de jouer.");
+			return false;
+		}
+	}
+	
 	
 	/**
 	 * Méthode qui décrémente l'énergie de 1. Et affiche s'il est KO dans le cas ou l'énergie est <= 0.
@@ -83,7 +121,7 @@ public class Tamagoshi {
 		this.energy--;
 		
 		if(this.energy <= 0){
-			System.out.println(this.name+" : je suis KO.");
+			System.out.println(this.name+" : je suis KO (de faim).");
 			this.etat = false;
 			return false;
 		}
@@ -94,7 +132,26 @@ public class Tamagoshi {
 	
 	
 	/**
-	 * Méthode qui ajoute 1 à l'&ge du Tamagoshi.
+	 * Méthode qui décrémente le fun de 1, et affiche si le Tamagoshi est KO (si fun<0).
+	 * @return true si son fun est positif, false dans le cas contraire.
+	 */
+	public boolean consommeFun(){
+		this.fun--;
+		
+		if(this.fun <= 0){
+			System.out.println(this.name+" : je suis KO (de non amusement).");
+			this.etat = false;
+			return false;
+		}
+		
+		else {
+			return true;
+		}
+	}
+	
+	
+	/**
+	 * Méthode qui ajoute 1 à l'age du Tamagoshi.
 	 */
 	public void vieillir(){
 		this.age++;

@@ -45,12 +45,22 @@ public class TamaGame {
 	 * Méthode permettant de supprimer un Tamagoshi de la liste s'il est mort et les rajoutent dans la liste des morts (énergie <=0).
 	 */
 	public void verifTamagoshi(){
-		for(Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+		for (int i=0 ; i<this.listeDeTamagoshi.size(); i++){
+			if (!this.listeDeTamagoshi.get(i).getEtat()){
+				this.listeDeTamagoshiMort.add(this.listeDeTamagoshi.get(i));
+				this.listeDeTamagoshi.remove(this.listeDeTamagoshi.get(i));
+			}
+		}
+		
+		/*La boucle suivante génère une exception mais je ne sais pas pourquoi ...*/
+		/*for(Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
 			if (!tamagoshiCourant.getEtat()){
+				
 				this.listeDeTamagoshiMort.add(tamagoshiCourant);
 				this.listeDeTamagoshi.remove(tamagoshiCourant);
 			}
-		}
+		}*/
+		
 	}
 	
 	/**
@@ -86,9 +96,10 @@ public class TamaGame {
 				tamagoshiCourant.parle();
 			}
 			
-			System.out.println("Quel Tamagoshi souhaitez vous nourrir ?");
 			
 			//Choisir le tamagoshi à nourir :
+			System.out.println("Quel Tamagoshi souhaitez vous nourrir ?");
+			
 			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
 				System.out.print("("+(this.listeDeTamagoshi.indexOf(tamagoshiCourant))+") "+tamagoshiCourant.getName()+"     ");
 			}
@@ -97,15 +108,22 @@ public class TamaGame {
 			int tamagoshiANourrir = new Integer(Utilisateur.saisieClavier());
 			this.listeDeTamagoshi.get(tamagoshiANourrir).mange();
 			
+			//Choisir le Tamagoshi à faire jouer :
+			System.out.println("\nAvec quel Tamagoshi souhaitez vous jouer ?");
 			
-			//Consommation d'énergie des Tamagoshis :
 			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-				tamagoshiCourant.consommeEnergie();
+				System.out.print("("+(this.listeDeTamagoshi.indexOf(tamagoshiCourant))+") "+tamagoshiCourant.getName()+"     ");
 			}
 			
+			//Fais jouer le Tamagoshi sélectionné :
+			int tamagoshiAFaireJouer = new Integer(Utilisateur.saisieClavier());
+			this.listeDeTamagoshi.get(tamagoshiAFaireJouer).joue();
 			
-			//Fait vieillir tous les Tamagoshi de la liste à la fin du tour :
+			
+			//Consommation d'énergie et de fun des Tamagoshis et vieillissement:
 			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+				tamagoshiCourant.consommeEnergie();
+				tamagoshiCourant.consommeFun();
 				tamagoshiCourant.vieillir();
 			}
 			
