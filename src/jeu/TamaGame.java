@@ -45,10 +45,10 @@ public class TamaGame {
 	 * Méthode permettant de supprimer un Tamagoshi de la liste s'il est mort et les rajoutent dans la liste des morts (énergie <=0).
 	 */
 	public void verifTamagoshi(){
-		for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
-			if(!this.listeDeTamagoshi.get(i).getEtat()){
-				this.listeDeTamagoshiMort.add(this.listeDeTamagoshi.get(i));
-				this.listeDeTamagoshi.remove(i);
+		for(Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+			if (!tamagoshiCourant.getEtat()){
+				this.listeDeTamagoshiMort.add(tamagoshiCourant);
+				this.listeDeTamagoshi.remove(tamagoshiCourant);
 			}
 		}
 	}
@@ -57,9 +57,9 @@ public class TamaGame {
 	 * Méthode qui vérifie à chaque tour si l'age maximal des Tamagoshis est atteint.
 	 */
 	public void verifAgeMax(){
-		for (int i=0 ; i<this.listeDeTamagoshi.size(); i++){
-			if (this.listeDeTamagoshi.get(i).getAge() == listeDeTamagoshi.get(i).getLifeTime()){
-				this.ageLimite = true; 
+		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+			if (tamagoshiCourant.getAge() == tamagoshiCourant.getLifeTime()){
+				this.ageLimite = true;
 			}
 		}
 	}
@@ -82,15 +82,15 @@ public class TamaGame {
 			this.verifAgeMax();
 		
 			//Boucle pour les faire parler :
-			for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
-				this.listeDeTamagoshi.get(i).parle();
+			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+				tamagoshiCourant.parle();
 			}
 			
 			System.out.println("Quel Tamagoshi souhaitez vous nourrir ?");
 			
 			//Choisir le tamagoshi à nourir :
-			for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
-				System.out.print("("+(i)+") "+this.listeDeTamagoshi.get(i).getName()+"     ");
+			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+				System.out.print("("+(this.listeDeTamagoshi.indexOf(tamagoshiCourant))+") "+tamagoshiCourant.getName()+"     ");
 			}
 			
 			//Fais manger le tamagoshi désiré :
@@ -99,13 +99,14 @@ public class TamaGame {
 			
 			
 			//Consommation d'énergie des Tamagoshis :
-			for(int i =0 ; i<this.listeDeTamagoshi.size() ; i++){
-				this.listeDeTamagoshi.get(i).consommeEnergie();
+			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+				tamagoshiCourant.consommeEnergie();
 			}
 			
+			
 			//Fait vieillir tous les Tamagoshi de la liste à la fin du tour :
-			for (int i=0; i<this.listeDeTamagoshi.size() ; i++){
-				this.listeDeTamagoshi.get(i).vieillir();
+			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+				tamagoshiCourant.vieillir();
 			}
 			
 			//Incrémente le nombre de tours :
@@ -126,17 +127,16 @@ public class TamaGame {
 		int sommeAgeMaxTamagoshi = 0;
 		
 		//boucle dans la liste des vivants :
-		for (int i=0 ; i<this.listeDeTamagoshi.size() ; i++){
-			sommeAgeTamagoshis += this.listeDeTamagoshi.get(i).getAge()-1;
+		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+			sommeAgeTamagoshis += tamagoshiCourant.getAge()-1;
 			sommeAgeMaxTamagoshi += 10;
 		}
 		
 		//Boucle dans la liste des morts :
-		for (int i=0 ; i<this.listeDeTamagoshiMort.size() ; i++){
-			sommeAgeTamagoshis += this.listeDeTamagoshiMort.get(i).getAge()-1;
+		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshiMort){
+			sommeAgeTamagoshis += tamagoshiCourant.getAge()-1;
 			sommeAgeMaxTamagoshi += 10;
 		}
-		
 		//Affichage des ages :
 		//System.out.println("somme age = "+sommeAgeTamagoshis+"\nsomme age max = "+sommeAgeMaxTamagoshi);
 		
@@ -151,12 +151,13 @@ public class TamaGame {
 		
 		//Affichage d'un mini bilan :
 		System.out.println("------- Partie Terminée ! -------\n\n-------- Bilan --------");
-		for (int i = 0; i < this.listeDeTamagoshi.size(); i++) {
-			System.out.println(this.listeDeTamagoshi.get(i).getName()+" a survécu et vous remercie :)");
+		
+		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+			System.out.println(tamagoshiCourant.getName()+" a survécu et vous remercie :)");
 		}
 		
-		for (int i = 0; i < this.listeDeTamagoshiMort.size(); i++) {
-			System.out.println(this.listeDeTamagoshiMort.get(i).getName()+" n'est pas arrivé au bout et ne vous félicite pas :(");
+		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshiMort){
+			System.out.println(tamagoshiCourant.getName()+" n'est pas arrivé au bout et ne vous félicite pas :(");
 		}
 		
 		System.out.println("\nVotre score est de : "+(int)this.score+"%");
