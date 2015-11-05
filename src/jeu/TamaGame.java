@@ -3,14 +3,17 @@ package jeu;
 import java.util.ArrayList;
 import tamagoshis.Tamagoshi;
 import util.Utilisateur;
+import java.util.Random;
 
 public class TamaGame {
 	
 	private ArrayList<Tamagoshi> listeDeTamagoshi = new ArrayList<Tamagoshi>();
 	private ArrayList<Tamagoshi> listeDeTamagoshiMort = new ArrayList<Tamagoshi>();
+	private ArrayList<String> listeDePrenoms = new ArrayList<String>();
 	private int difficulte = 0;
 	private double score = 0;
 	private boolean ageLimite = false;
+	private Random rand = new Random();
 	
 	/**
 	 * Constructeur sans parammètres, qui créer un jeu.
@@ -25,6 +28,9 @@ public class TamaGame {
 	 */
 	public void initialisation(){
 		
+		//On ajoute des prénoms à l'arraylist :
+		this.ajoutPrenoms();
+		
 		//Saisie au clavier du nombre de Tamagoshis à crer :
 		System.out.println("Combien voulez vous créer de Tamagoshis ?");
 		String nbDeTamagoshisString = Utilisateur.saisieClavier();
@@ -32,12 +38,26 @@ public class TamaGame {
 		this.difficulte = nbDeTamagoshisInt;
 		
 		//Boucle qui créer des Tamagoshis au nombre choisi par l'utilisateur :
+		System.out.println(this.difficulte+" Tamagoshis crées : ");
 		for (int i=0 ; i<nbDeTamagoshisInt ; i++){
-			System.out.println("Nommez votre Tamagoshi "+(i+1));
-			String nomDuTamagoshi = Utilisateur.saisieClavier();
-			this.listeDeTamagoshi.add(new Tamagoshi(nomDuTamagoshi));
+			this.listeDeTamagoshi.add(new Tamagoshi(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+			System.out.println(this.listeDeTamagoshi.get(i).getName());
 		}
 
+	}
+	
+	
+	/**
+	 * Méthode qui ajoute à l'arraylist des prénoms :
+	 */
+	public void ajoutPrenoms(){
+		this.listeDePrenoms.add("Julien");
+		this.listeDePrenoms.add("Clément");
+		this.listeDePrenoms.add("Marine");
+		this.listeDePrenoms.add("Florent");
+		this.listeDePrenoms.add("Brigitte");
+		this.listeDePrenoms.add("Nicole");
+		this.listeDePrenoms.add("Camille");
 	}
 	
 	
