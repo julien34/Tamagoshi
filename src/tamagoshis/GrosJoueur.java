@@ -12,6 +12,4 @@ public class GrosJoueur extends Tamagoshi{
 		return super.consommeFun();
 	}
 	
-	
-
 }

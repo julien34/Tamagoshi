@@ -1,8 +1,12 @@
 package jeu;
 
 import java.util.ArrayList;
+
+import tamagoshis.GrosJoueur;
+import tamagoshis.GrosMangeur;
 import tamagoshis.Tamagoshi;
 import util.Utilisateur;
+
 import java.util.Random;
 
 public class TamaGame {
@@ -24,7 +28,7 @@ public class TamaGame {
 	
 	
 	/**
-	 * Méthode permettant d'initialiser un jeu de tamagoshi en saisissant clavier (avec la classe Personne).
+	 * Méthode permettant d'initialiser un jeu de Tamagoshi en saisissant au clavier le nombre.
 	 */
 	public void initialisation(){
 		
@@ -37,10 +41,30 @@ public class TamaGame {
 		int nbDeTamagoshisInt = new Integer(nbDeTamagoshisString);
 		this.difficulte = nbDeTamagoshisInt;
 		
+		
 		//Boucle qui créer des Tamagoshis au nombre choisi par l'utilisateur :
 		System.out.println(this.difficulte+" Tamagoshis crées : ");
 		for (int i=0 ; i<nbDeTamagoshisInt ; i++){
-			this.listeDeTamagoshi.add(new Tamagoshi(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+			
+			//50% de chance de créer un Tamagoshi :
+			if (rand.nextInt(2) == 0){
+				this.listeDeTamagoshi.add(new Tamagoshi(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+			}
+			
+			//50% de chance de créer un GrosMangeur ou un GrosJoueur :
+			else{
+				
+				//25% de change de créer un GrosMangeur :
+				if(rand.nextInt(2) == 0){
+					this.listeDeTamagoshi.add(new GrosMangeur(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+				}
+				
+				//25% de change de créer un GrosJoueur :
+				else {
+					this.listeDeTamagoshi.add(new GrosJoueur(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+				}
+			}
+			
 			System.out.println(this.listeDeTamagoshi.get(i).getName());
 		}
 
@@ -184,6 +208,10 @@ public class TamaGame {
 		return this.score;
 	}
 	
+	
+	/**
+	 * La méthode résultat utilise la méthode score() afin de calculer le score et de l'afficher en console à l'utilisateur par la suite.
+	 */
 	public void resultat(){
 		this.score();
 		
@@ -191,11 +219,11 @@ public class TamaGame {
 		System.out.println("------- Partie Terminée ! -------\n\n-------- Bilan --------");
 		
 		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-			System.out.println(tamagoshiCourant.getName()+" a survécu et vous remercie :)");
+			System.out.println(tamagoshiCourant.getName()+" qui était un "+tamagoshiCourant.getClass().getSimpleName()+" a survécu et vous remercie :)");
 		}
 		
 		for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshiMort){
-			System.out.println(tamagoshiCourant.getName()+" n'est pas arrivé au bout et ne vous félicite pas :(");
+			System.out.println(tamagoshiCourant.getName()+" qui était un "+tamagoshiCourant.getClass().getSimpleName()+" n'est pas arrivé au bout et ne vous félicite pas :(");
 		}
 		
 		System.out.println("\nVotre score est de : "+(int)this.score+"%");

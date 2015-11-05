@@ -197,26 +197,15 @@ public class Tamagoshi {
 	}
 	
 	public int getLifeTime(){
-		return this.lifeTime;
+		return Tamagoshi.lifeTime;
 	}
 	
 	/**
-	 * Méthode main qui lance le programme.
+	 * Méthode main qui lance le programme en test uniquement. Le main de l'application est dans le TamaGame.
 	 * @param args
 	 */
 	public static void main(String args[]){
-		//Création et affichage de l'objet tamagoshi :
-		//Tamagoshi t1 = new Tamagoshi("T1");
-		//System.out.println(t1.toString());
-		
-		//Tamagoshi t2 = new Tamagoshi("T2");
-		//System.out.println(t2.toString());
-		int nom = 19;
-		int denom = 20;
-		int mult = 100;
-		double calcul = ((double)nom/(double)denom)*(double)mult;
-		
-		System.out.println(calcul);
+		//Main servant à tester des méthodes;
 	}
 	
 }
