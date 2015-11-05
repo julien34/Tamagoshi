@@ -2,7 +2,7 @@ package jeu;
 
 import java.util.ArrayList;
 import tamagoshis.Tamagoshi;
-import jeu.Utilisateur;
+import util.Utilisateur;
 
 public class TamaGame {
 	

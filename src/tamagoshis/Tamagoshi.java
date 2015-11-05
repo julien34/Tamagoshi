@@ -8,6 +8,8 @@ import java.util.Random;
  * 		<li>maxEnergy (int) : l'énergie qu'il peut avoir au maximum.</li>
  * 		<li>energy (int) : son énergie actuelle.</li>
  * 		<li>name (String) : le nom du Tamagoshi.</li>
+ * 		<li>etat (Boolean) : l'état du Tamagoshi (mort ou vif).</li>
+ * 		<li>lifeTime (int) : Le nombre de tours de jeu.</li>
  * </ul>
  * 
  * @author Siauvaud Julien
