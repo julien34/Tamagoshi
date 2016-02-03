@@ -1,15 +1,26 @@
 package jeu;
 
+import graphic.TamaFrame;
+import graphic.TamaJFrameResultat;
+
 import java.util.ArrayList;
 
 import tamagoshis.GrosJoueur;
 import tamagoshis.GrosMangeur;
 import tamagoshis.Tamagoshi;
-import util.Utilisateur;
 
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+
 public class TamaGame {
+	
+	/**
+	 * Spinner qui permet de récupérer la quantité de tamagoshis à créer.
+	 */
+	private JSpinner qte = new JSpinner(new SpinnerNumberModel(1, 1, 8, 1));//Valeur initiale, Valeur mini, valeur maxi, saut
 	
 	private ArrayList<Tamagoshi> listeDeTamagoshi = new ArrayList<Tamagoshi>();
 	private ArrayList<Tamagoshi> listeDeTamagoshiMort = new ArrayList<Tamagoshi>();
@@ -18,6 +29,11 @@ public class TamaGame {
 	private double score = 0;
 	private boolean ageLimite = false;
 	private Random rand = new Random();
+	
+	public static ArrayList<TamaFrame> listeDesFenetres = new ArrayList<TamaFrame>();
+	private int nbTours = 0;
+	
+	private static TamaGame jeu = new TamaGame();
 	
 	/**
 	 * Constructeur sans parammètres, qui créer un jeu.
@@ -30,25 +46,27 @@ public class TamaGame {
 	/**
 	 * Méthode permettant d'initialiser un jeu de Tamagoshi en saisissant au clavier le nombre.
 	 */
-	public void initialisation(){
+	private void initialisation(){
 		
 		//On ajoute des prénoms à l'arraylist :
 		this.ajoutPrenoms();
 		
-		//Saisie au clavier du nombre de Tamagoshis à crer :
-		System.out.println("Combien voulez vous créer de Tamagoshis ?");
-		String nbDeTamagoshisString = Utilisateur.saisieClavier();
-		int nbDeTamagoshisInt = new Integer(nbDeTamagoshisString);
+		//Choix de la quantité de tamagoshis à créer
+		int nbDeTamagoshisInt = this.choixQte();
 		this.difficulte = nbDeTamagoshisInt;
 		
 		
 		//Boucle qui créer des Tamagoshis au nombre choisi par l'utilisateur :
-		System.out.println(this.difficulte+" Tamagoshis crées : ");
 		for (int i=0 ; i<nbDeTamagoshisInt ; i++){
 			
 			//50% de chance de créer un Tamagoshi :
 			if (rand.nextInt(2) == 0){
-				this.listeDeTamagoshi.add(new Tamagoshi(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+				int pif = rand.nextInt(this.listeDePrenoms.size());//Valeur au hasard
+				Tamagoshi t = new Tamagoshi(this.listeDePrenoms.get(pif));
+				this.listeDePrenoms.remove(pif);//On supprime le nom dans la liste
+				int pos = this.listeDeTamagoshi.size();
+				this.listeDeTamagoshi.add(t);//On ajoute le tamagoshi à la liste
+				listeDesFenetres.add(new TamaFrame(t, pos));//On créer une fenetre avec ce tamagoshi en paramètre, ainsi que la position dans la liste des fenetres
 			}
 			
 			//50% de chance de créer un GrosMangeur ou un GrosJoueur :
@@ -56,18 +74,25 @@ public class TamaGame {
 				
 				//25% de change de créer un GrosMangeur :
 				if(rand.nextInt(2) == 0){
-					this.listeDeTamagoshi.add(new GrosMangeur(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+					int pif = rand.nextInt(this.listeDePrenoms.size());//Valeur au hasard
+					GrosMangeur gm = new GrosMangeur(this.listeDePrenoms.get(pif));
+					this.listeDePrenoms.remove(pif);//On supprime le nom dans la liste
+					int pos = this.listeDeTamagoshi.size();
+					this.listeDeTamagoshi.add(gm);
+					listeDesFenetres.add(new TamaFrame(gm, pos));
 				}
 				
 				//25% de change de créer un GrosJoueur :
 				else {
-					this.listeDeTamagoshi.add(new GrosJoueur(this.listeDePrenoms.get(rand.nextInt(this.listeDePrenoms.size()))));
+					int pif = rand.nextInt(this.listeDePrenoms.size());//Valeur au hasard
+					GrosJoueur gj = new GrosJoueur(this.listeDePrenoms.get(pif));
+					this.listeDePrenoms.remove(pif);//On supprime le nom dans la liste
+					int pos = this.listeDeTamagoshi.size();
+					this.listeDeTamagoshi.add(gj);
+					listeDesFenetres.add(new TamaFrame(gj, pos));
 				}
 			}
-			
-			System.out.println(this.listeDeTamagoshi.get(i).getName());
 		}
-
 	}
 	
 	
@@ -82,6 +107,7 @@ public class TamaGame {
 		this.listeDePrenoms.add("Brigitte");
 		this.listeDePrenoms.add("Nicole");
 		this.listeDePrenoms.add("Camille");
+		this.listeDePrenoms.add("Patrick");
 	}
 	
 	
@@ -89,22 +115,56 @@ public class TamaGame {
 	 * Méthode permettant de supprimer un Tamagoshi de la liste s'il est mort et les rajoutent dans la liste des morts (énergie <=0).
 	 */
 	public void verifTamagoshi(){
+		
+		//Si la liste de tamagoshi est vide, on affiche le résultat, la partie s'arrete
+		if(this.listeDeTamagoshi.isEmpty()){
+			this.resultat();
+		}
+		
+		//On supprime les tamagoshi morts de la liste des vivants et on les ajoute à la liste des morts
 		for (int i=0 ; i<this.listeDeTamagoshi.size(); i++){
 			if (!this.listeDeTamagoshi.get(i).getEtat()){
+				
 				this.listeDeTamagoshiMort.add(this.listeDeTamagoshi.get(i));
 				this.listeDeTamagoshi.remove(this.listeDeTamagoshi.get(i));
 			}
 		}
 		
-		/*La boucle suivante génère une exception mais je ne sais pas pourquoi ...*/
-		/*for(Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-			if (!tamagoshiCourant.getEtat()){
-				
-				this.listeDeTamagoshiMort.add(tamagoshiCourant);
-				this.listeDeTamagoshi.remove(tamagoshiCourant);
+		//On remet tous les boutons clickable pour es tamagoshi vivants
+		for(Tamagoshi tam : this.listeDeTamagoshi){
+			for(TamaFrame t : listeDesFenetres){
+				if(tam.equals(t.getTama())){
+					t.getTjp().setBtn(3, true);//On rend tous le sboutons clickable
+				}
 			}
-		}*/
+		}
 		
+		//Si un tamagoshi meurt, on grise ses boutons et on lui affecte l'image de "mort"
+		for(Tamagoshi tam : this.listeDeTamagoshiMort){
+			for(TamaFrame t : listeDesFenetres){
+				if(t.getTama().equals(tam)){
+					
+					//On met l'ensemble des boutons non-clickable sur les tamagoshis  morts
+					t.getTjp().setBtn(3, false);
+					
+					//Selon la classe du tamagoshi, on lui affecte son image de "mort"
+					switch (tam.getClass().getSimpleName()) {
+					case "Tamagoshi":
+						t.getTjp().setImg(1);
+						break;
+					case "GrosMangeur":
+						t.getTjp().setImg(2);
+						break;
+					case "GrosJoueur":
+						t.getTjp().setImg(3);
+						break;
+
+					default:
+						break;
+					}
+				}
+			}	
+		}
 	}
 	
 	/**
@@ -123,61 +183,38 @@ public class TamaGame {
 	 * Méthode permettant de jouer une partie complete de jeu.
 	 */
 	public void play(){
-		int nbTours = 0;
-		this.initialisation();
 		
-		while(this.listeDeTamagoshi.size()>0 && !this.ageLimite){
+		this.verifAgeMax();
+		this.verifTamagoshi();
+		
+		this.nbTours++;//On incrémente le nombre de tour
+		
+		//Si la partie n'est pas finie, on refait un tour
+		if(this.listeDeTamagoshi.size()>0 && !this.ageLimite){
 			System.out.println("\n----- Cycle No."+nbTours+" -----");
+			
+			//Boucle pour les faire parler + Consommation d'énergie et de fun des Tamagoshis et vieillissement:
+			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
+				tamagoshiCourant.parle();
+				tamagoshiCourant.consommeEnergie();
+				tamagoshiCourant.consommeFun();
+				tamagoshiCourant.vieillir();
+			}
 			
 			//Vérifie que les Tamagoshis ne sont pas tous morts (les supprime de la liste s'ils sont morts) :
 			this.verifTamagoshi();
 			
 			//Vérifie que les tamagoshis n'ont pas atteint leur age maximal :
 			this.verifAgeMax();
-		
-			//Boucle pour les faire parler :
-			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-				tamagoshiCourant.parle();
-			}
-			
-			
-			//Choisir le tamagoshi à nourir :
-			System.out.println("Quel Tamagoshi souhaitez vous nourrir ?");
-			
-			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-				System.out.print("("+(this.listeDeTamagoshi.indexOf(tamagoshiCourant))+") "+tamagoshiCourant.getName()+"     ");
-			}
-			
-			//Fais manger le tamagoshi désiré :
-			int tamagoshiANourrir = new Integer(Utilisateur.saisieClavier());
-			this.listeDeTamagoshi.get(tamagoshiANourrir).mange();
-			
-			//Choisir le Tamagoshi à faire jouer :
-			System.out.println("\nAvec quel Tamagoshi souhaitez vous jouer ?");
-			
-			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-				System.out.print("("+(this.listeDeTamagoshi.indexOf(tamagoshiCourant))+") "+tamagoshiCourant.getName()+"     ");
-			}
-			
-			//Fais jouer le Tamagoshi sélectionné :
-			int tamagoshiAFaireJouer = new Integer(Utilisateur.saisieClavier());
-			this.listeDeTamagoshi.get(tamagoshiAFaireJouer).joue();
-			
-			
-			//Consommation d'énergie et de fun des Tamagoshis et vieillissement:
-			for (Tamagoshi tamagoshiCourant : this.listeDeTamagoshi){
-				tamagoshiCourant.consommeEnergie();
-				tamagoshiCourant.consommeFun();
-				tamagoshiCourant.vieillir();
-			}
-			
-			//Incrémente le nombre de tours :
-			nbTours++;
 		}
 		
-		if(this.listeDeTamagoshi.size()<=0 || this.ageLimite){
+		//Si la partie est finie alors on affiche le résultat
+		else{
 			this.resultat();
 		}
+		
+		this.verifAgeMax();
+		this.verifTamagoshi();
 	}
 	
 	/**
@@ -199,8 +236,6 @@ public class TamaGame {
 			sommeAgeTamagoshis += tamagoshiCourant.getAge()-1;
 			sommeAgeMaxTamagoshi += 10;
 		}
-		//Affichage des ages :
-		//System.out.println("somme age = "+sommeAgeTamagoshis+"\nsomme age max = "+sommeAgeMaxTamagoshi);
 		
 		//Calcul du score :
 		this.score = ((double)sommeAgeTamagoshis/(double)sommeAgeMaxTamagoshi)*(double)100;
@@ -213,8 +248,16 @@ public class TamaGame {
 	 * La méthode résultat utilise la méthode score() afin de calculer le score et de l'afficher en console à l'utilisateur par la suite.
 	 */
 	public void resultat(){
-		this.score();
+		this.score();//calcul du scrore
 		
+		//On ferme toutes les fenetres qui ont été instanciées lors de la création
+		for(TamaFrame tjf : listeDesFenetres){
+			tjf.dispose();
+		}
+		
+		//On ouvre une fenetre de résultat (bilan)
+		new TamaJFrameResultat(this.listeDeTamagoshi, this.listeDeTamagoshiMort, (int)this.score);
+				
 		//Affichage d'un mini bilan :
 		System.out.println("------- Partie Terminée ! -------\n\n-------- Bilan --------");
 		
@@ -226,10 +269,34 @@ public class TamaGame {
 			System.out.println(tamagoshiCourant.getName()+" qui était un "+tamagoshiCourant.getClass().getSimpleName()+" n'est pas arrivé au bout et ne vous félicite pas :(");
 		}
 		
-		System.out.println("\nVotre score est de : "+(int)this.score+"%");
-		
 	}
 	
+	
+	
+	
+	
+	/**
+	 * Méthode qui ouvre une popup pour sélectionner la quantité de Tamagoshis à créer. Il est possible de créer entre 1 et 8 Tamagoshis.
+	 */
+	private int choixQte(){
+		
+		//Si l'utilisateur clique sur "OK"
+		if(JOptionPane.showOptionDialog(null, this.qte, "Tamagoshis à créer", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null) == JOptionPane.OK_OPTION){
+			return (Integer)this.qte.getValue();
+		}
+		else{
+			return 0;
+		}
+	}
+
+
+	/**
+	 * Méthode qui retourne le TamaGame courant.
+	 * @return, le TamaGame courant.
+	 */
+	public static TamaGame getJeu() {
+		return jeu;
+	}
 	
 	
 	/**
@@ -237,7 +304,6 @@ public class TamaGame {
 	 * @param args
 	 */
 	public static void main(String args[]){
-		TamaGame jeu = new TamaGame();
-		jeu.play();
+		jeu.initialisation();
 	}
 }
