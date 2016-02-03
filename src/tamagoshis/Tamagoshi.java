@@ -1,5 +1,9 @@
 package tamagoshis;
+import graphic.TamaFrame;
+
 import java.util.Random;
+
+import jeu.TamaGame;
 
 /**
  * Les variables sont les suivantes :
@@ -81,6 +85,12 @@ public class Tamagoshi {
 	 * @return true si le tamagoshi a été nourri. ou false dans le cas contraire.
 	 */
 	public boolean mange(){
+		
+		//On grise l'ensemble des boutons pour "manger"
+		for (TamaFrame t : TamaGame.listeDesFenetres) {
+			t.setBtn(1, false);
+		}
+			
 		if(this.maxEnergy>this.energy){
 			this.energy += 1+rand.nextInt(2);
 			if(this.energy>this.maxEnergy){
@@ -101,6 +111,12 @@ public class Tamagoshi {
 	 * @return true dans le cas ou le Tamagoshi a joué, false dans le cas inverse.
 	 */
 	public boolean joue(){
+		
+		//On grise l'ensemble des boutons pour "jouer"
+		for (TamaFrame t : TamaGame.listeDesFenetres) {
+			t.setBtn(2, false);
+		}
+		
 		if(this.maxFun>this.fun){
 			this.fun += 1+rand.nextInt(2);
 			if(this.fun>this.maxFun){
@@ -196,16 +212,12 @@ public class Tamagoshi {
 		return this.age;
 	}
 	
+	
+	/**
+	 * Méthode getter de la LifeTime.
+	 * @return, la vie du tamagoshi.
+	 */
 	public int getLifeTime(){
 		return Tamagoshi.lifeTime;
 	}
-	
-	/**
-	 * Méthode main qui lance le programme en test uniquement. Le main de l'application est dans le TamaGame.
-	 * @param args
-	 */
-	public static void main(String args[]){
-		//Main servant à tester des méthodes;
-	}
-	
 }
