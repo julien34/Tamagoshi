@@ -2,6 +2,7 @@ package jeu;
 
 import graphic.TamaFrame;
 import graphic.TamaJFrameResultat;
+import graphic.TamaJPanel;
 
 import java.util.ArrayList;
 
@@ -209,6 +210,9 @@ public class TamaGame {
 		
 		//Vérifie que les tamagoshis n'ont pas atteint leur age maximal :
 		this.verifAgeMax();
+		
+		//On affiche les états pour chaque tamagoshi dans les fenetres
+		afficherEtats();
 	}
 	
 	/**
@@ -299,5 +303,15 @@ public class TamaGame {
 	 */
 	public static void main(String args[]){
 		jeu.initialisation();
+	}
+	
+	
+	/**
+	 * Méthode qui permet d'afficher dans les bulles de chaque TamaFrame, l'état du tamagoshi.
+	 */
+	private static void afficherEtats(){
+		for(TamaFrame tf : listeDesFenetres){
+			tf.getTjp().afficherEtatsDansBulles();
+		}
 	}
 }

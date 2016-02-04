@@ -27,7 +27,7 @@ public class TamaFrame extends JFrame{
 		this.add(tjp);
 		
 		this.setTitle(this.tama.getName()+" ("+this.tama.getClass().getSimpleName()+")");
-		this.setSize(400, 400);
+		this.setSize(400, 500);
 		this.setLocation(pos*401, 0);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);

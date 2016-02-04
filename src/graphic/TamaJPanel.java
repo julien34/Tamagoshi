@@ -3,6 +3,7 @@ package graphic;
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.BorderLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import jeu.TamaGame;
 import tamagoshis.Tamagoshi;
@@ -24,6 +26,7 @@ public class TamaJPanel extends JPanel{
 	private ImageIcon imgTamagoshi = new ImageIcon(getClass().getResource("../images/tamagoshi.png"));
 	private ImageIcon imgGrosMangeur = new ImageIcon(getClass().getResource("../images/grosmangeur.png"));
 	private ImageIcon imgGrosJoueur = new ImageIcon(getClass().getResource("../images/grosjoueur.png"));
+	private JLabel lblBulle = new JLabel("Jouons ensemble !");
 	
 	private HashMap<Integer, String> hmJouer = new HashMap<Integer, String>(20);
 	private HashMap<Integer, String> hmManger = new HashMap<Integer, String>(20);
@@ -45,6 +48,15 @@ public class TamaJPanel extends JPanel{
 	 */
 	private void initPanel(){
 		this.setLayout(new BorderLayout());
+		
+		//On affiche la bulle au dessus des tamagoshis
+		ImageIcon icon = new ImageIcon(new ImageIcon(getClass().getResource("../images/bulle.png")).getImage().getScaledInstance(400, 150, Image.SCALE_DEFAULT));
+		this.lblBulle.setIcon(icon);
+		
+		//On affiche le texte dans la bulle
+		this.lblBulle.setHorizontalTextPosition(SwingConstants.CENTER);
+		this.lblBulle.setHorizontalAlignment(JLabel.CENTER);
+		this.add(this.lblBulle, BorderLayout.NORTH);
 		
 		//On affiche une image différente selon les tamagoshis
 		switch (this.tama.getClass().getSimpleName()) {
@@ -97,6 +109,7 @@ public class TamaJPanel extends JPanel{
 
 				if(tourTermine()){//Si le tour est terminé (que l'utilisateur a cliqué sur 2 boutons)
 					TamaGame.getJeu().play();//On relance un tour
+					TamaJPanel.this.lblBulle.setText(TamaJPanel.this.tama.getEtatDeForme());
 				}
 			}
 		});
@@ -111,6 +124,7 @@ public class TamaJPanel extends JPanel{
 				
 				if(tourTermine()){
 					TamaGame.getJeu().play();
+					TamaJPanel.this.lblBulle.setText(TamaJPanel.this.tama.getEtatDeForme());
 				}
 			}
 		});
@@ -228,5 +242,13 @@ public class TamaJPanel extends JPanel{
 		}
 		
 		clip.play();//On lance l'audio
+	}
+	
+	
+	/**
+	 * Setter du JLabel de l'état (dans l'image de la bulle). Affiche l'état de forme du tamagoshi.
+	 */
+	public void afficherEtatsDansBulles(){
+		this.lblBulle.setText(this.tama.getEtatDeForme());
 	}
 }

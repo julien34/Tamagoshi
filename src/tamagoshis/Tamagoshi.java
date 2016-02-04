@@ -1,5 +1,6 @@
 package tamagoshis;
 import graphic.TamaFrame;
+import graphic.TamaJPanel;
 
 import java.util.Random;
 
@@ -29,6 +30,7 @@ public class Tamagoshi {
 	private static int lifeTime = 10;
 	private Random rand = new Random();
 	protected boolean etat = true;
+	private String etatDeForme = "";
 	
 	
 	/**
@@ -50,29 +52,28 @@ public class Tamagoshi {
 	 * @return etatDeForme (booléen) : true si énergie > 5, si non false.
 	 */
 	public boolean parle(){
-		String etatDeForme;
 		
 		if (this.energy > 5 && this.fun > 5){
-			etatDeForme = "Tout va bien";
-			System.out.println(this.name+" : "+etatDeForme);
+			this.etatDeForme = "Tout va bien";
+			System.out.println(this.name+" : "+this.etatDeForme);
 			return true;
 		}
 		
 		else if (this.energy <= 5 && this.fun <= 5){
-			etatDeForme = "Je suis affamé et je m'ennuie à mourrir";
-			System.out.println(this.name+" : "+etatDeForme);
+			this.etatDeForme = "Je suis affamé et je m'ennuie à mourrir";
+			System.out.println(this.name+" : "+this.etatDeForme);
 			return false;
 		}
 		
 		else if (this.energy <= 5){
-			etatDeForme = "Je suis affamé";
-			System.out.println(this.name+" : "+etatDeForme);
+			this.etatDeForme = "Je suis affamé";
+			System.out.println(this.name+" : "+this.etatDeForme);
 			return false;
 		}
 		
 		else {
-			etatDeForme = "Je m'ennuie à mourrir";
-			System.out.println(this.name+" : "+etatDeForme);
+			this.etatDeForme = "Je m'ennuie à mourrir";
+			System.out.println(this.name+" : "+this.etatDeForme);
 			return false;
 		}
 	}
@@ -123,10 +124,12 @@ public class Tamagoshi {
 				this.fun = this.maxFun;
 			}
 			System.out.println(this.name+" : Merci de m'avoir fait jouer.");
+			this.etatDeForme = "Merci de m'avoir fait jouer";
 			return true;
 		}
 		else {
 			System.out.println(this.name+" : Je n'ai pas envie de jouer.");
+			this.etatDeForme = "Je n'ai pas envie de jouer";
 			return false;
 		}
 	}
@@ -141,6 +144,7 @@ public class Tamagoshi {
 		
 		if(this.energy <= 0){
 			System.out.println(this.name+" : je suis KO (de faim).");
+			this.etatDeForme = "je suis KO (de faim)";
 			this.etat = false;
 			return false;
 		}
@@ -159,6 +163,7 @@ public class Tamagoshi {
 		
 		if(this.fun <= 0){
 			System.out.println(this.name+" : je suis KO (de non amusement).");
+			this.etatDeForme = "je suis KO (de non amusement)";
 			this.etat = false;
 			return false;
 		}
@@ -219,5 +224,9 @@ public class Tamagoshi {
 	 */
 	public int getLifeTime(){
 		return Tamagoshi.lifeTime;
+	}
+	
+	public String getEtatDeForme(){
+		return this.etatDeForme;
 	}
 }
