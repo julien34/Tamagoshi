@@ -1,8 +1,12 @@
 package graphic;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,6 +24,10 @@ public class TamaJPanel extends JPanel{
 	private ImageIcon imgTamagoshi = new ImageIcon(getClass().getResource("../images/tamagoshi.png"));
 	private ImageIcon imgGrosMangeur = new ImageIcon(getClass().getResource("../images/grosmangeur.png"));
 	private ImageIcon imgGrosJoueur = new ImageIcon(getClass().getResource("../images/grosjoueur.png"));
+	
+	private HashMap<Integer, String> hmJouer = new HashMap<Integer, String>(20);
+	private HashMap<Integer, String> hmManger = new HashMap<Integer, String>(20);
+	private AudioClip clip = null;
 
 
 	
@@ -68,6 +76,8 @@ public class TamaJPanel extends JPanel{
 		panelBoutons.add(btnManger);
 
 		this.add(panelBoutons, BorderLayout.SOUTH);
+		
+		this.setSongs();//On initialise les sons qui seront lancés
 	}
 	
 	
@@ -82,7 +92,9 @@ public class TamaJPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TamaJPanel.this.tama.mange();
+				TamaJPanel.this.tama.mange();//fais manger le tamagoshi
+				TamaJPanel.this.jouerSons(1);//lance un son aléatoire de manger
+
 				if(tourTermine()){//Si le tour est terminé (que l'utilisateur a cliqué sur 2 boutons)
 					TamaGame.getJeu().play();//On relance un tour
 				}
@@ -94,7 +106,9 @@ public class TamaJPanel extends JPanel{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TamaJPanel.this.tama.joue();
+				TamaJPanel.this.tama.joue();//fais jouer un tamagoshi
+				TamaJPanel.this.jouerSons(2);//lance un son aléatoire de jouer
+				
 				if(tourTermine()){
 					TamaGame.getJeu().play();
 				}
@@ -160,5 +174,59 @@ public class TamaJPanel extends JPanel{
 	 */
 	public boolean tourTermine(){
 		return !this.btnJouer.isEnabled() && !this.btnManger.isEnabled();
+	}
+	
+	
+	/**
+	 * Méthode qui ajoute à la HashMap les liens vers les sons du jeu.
+	 */
+	private void setSongs(){
+		
+		//Sons pour jouer
+		this.hmJouer.put(0,"../sounds/play/yallah.wav");
+		this.hmJouer.put(1,"../sounds/play/merci-la-gueuse.wav");
+		this.hmJouer.put(2,"../sounds/play/feel-like-this.wav");
+		this.hmJouer.put(3,"../sounds/play/vous-ne-vous-reposer-jamais-vous.wav");
+		this.hmJouer.put(4,"../sounds/play/tarzan.wav");
+		
+		//Sons pour manger
+		this.hmManger.put(0,"../sounds/eat/ou-sont-les-poulardes.wav");
+		this.hmManger.put(1,"../sounds/eat/cest-tres-bon.wav");
+		this.hmManger.put(2,"../sounds/eat/cest-tres-fin.wav");
+		this.hmManger.put(3,"../sounds/eat/cette-vinasse.wav");
+		this.hmManger.put(4,"../sounds/eat/obelix-tombe-dedans.wav");
+		this.hmManger.put(5,"../sounds/eat/on-va-se-goinfrer.wav");
+		this.hmManger.put(6,"../sounds/eat/ou-sont-les-poulardes.wav");
+	}
+	
+	
+	/**
+	 * Méthode qui joue un son aléatoirement dans le style 'manger' ou 'jouer'.
+	 * @param n, un entier représentant 'jouer' ou 'manger'.
+	 */
+	private void jouerSons(int n){
+		
+		Random rnd = new Random();//On créer un random
+		int index = 0; //On initialise l'index à 0
+		
+		switch (n) {
+		
+		//Pour le cas ou le tamagoshi joue
+		case 1:
+			index = rnd.nextInt(this.hmManger.size());//On génère un nombre aléatoire pour prendre un son au hasard dans la hashmap
+			this.clip = Applet.newAudioClip(getClass().getResource(this.hmManger.get(index)));
+			break;
+		
+		//Pour le cas ou le tamagoshi mange
+		case 2:
+			index = rnd.nextInt(this.hmJouer.size());//On génère un nombre aléatoire pour prendre un son au hasard dans la hashmap
+			this.clip = Applet.newAudioClip(getClass().getResource(this.hmJouer.get(index)));
+			break;
+			
+		default:
+			break;
+		}
+		
+		clip.play();//On lance l'audio
 	}
 }

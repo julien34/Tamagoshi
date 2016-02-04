@@ -1,5 +1,7 @@
 package graphic;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 
@@ -15,6 +17,7 @@ public class TamaJFrameResultat extends JFrame {
 	private int score;
 	
 	private JLabel lblTitre;
+	private AudioClip clip = Applet.newAudioClip(getClass().getResource("../sounds/autres/applaudissements.wav"));;
 
 	
 	/**
@@ -29,7 +32,8 @@ public class TamaJFrameResultat extends JFrame {
 		this.score = score;
 		
 		this.initFenetre();//Initialise la fenêtre
-		this.initPanel();
+		this.initPanel();//Initialise le panel
+		this.clip.loop();//On boucle sur le sons d'applaudissements
 	}
 	
 	
