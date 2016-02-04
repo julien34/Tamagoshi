@@ -125,7 +125,7 @@ public class TamaGame {
 			}
 		}
 		
-		//On remet tous les boutons clickable pour es tamagoshi vivants
+		//On remet tous les boutons clickable pour les tamagoshis vivants
 		for(Tamagoshi tam : this.listeDeTamagoshi){
 			for(TamaFrame t : listeDesFenetres){
 				if(tam.equals(t.getTama())){
@@ -184,9 +184,6 @@ public class TamaGame {
 	 */
 	public void play(){
 		
-		this.verifAgeMax();
-		this.verifTamagoshi();
-		
 		this.nbTours++;//On incrémente le nombre de tour
 		
 		//Si la partie n'est pas finie, on refait un tour
@@ -200,12 +197,6 @@ public class TamaGame {
 				tamagoshiCourant.consommeFun();
 				tamagoshiCourant.vieillir();
 			}
-			
-			//Vérifie que les Tamagoshis ne sont pas tous morts (les supprime de la liste s'ils sont morts) :
-			this.verifTamagoshi();
-			
-			//Vérifie que les tamagoshis n'ont pas atteint leur age maximal :
-			this.verifAgeMax();
 		}
 		
 		//Si la partie est finie alors on affiche le résultat
@@ -213,8 +204,11 @@ public class TamaGame {
 			this.resultat();
 		}
 		
-		this.verifAgeMax();
+		//Vérifie que les Tamagoshis ne sont pas tous morts (les supprime de la liste s'ils sont morts) :
 		this.verifTamagoshi();
+		
+		//Vérifie que les tamagoshis n'ont pas atteint leur age maximal :
+		this.verifAgeMax();
 	}
 	
 	/**
