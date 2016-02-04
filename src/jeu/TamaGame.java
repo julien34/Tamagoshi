@@ -116,11 +116,6 @@ public class TamaGame {
 	 */
 	public void verifTamagoshi(){
 		
-		//Si la liste de tamagoshi est vide, on affiche le résultat, la partie s'arrete
-		if(this.listeDeTamagoshi.isEmpty()){
-			this.resultat();
-		}
-		
 		//On supprime les tamagoshi morts de la liste des vivants et on les ajoute à la liste des morts
 		for (int i=0 ; i<this.listeDeTamagoshi.size(); i++){
 			if (!this.listeDeTamagoshi.get(i).getEtat()){
@@ -164,6 +159,11 @@ public class TamaGame {
 					}
 				}
 			}	
+		}
+		
+		//Si la liste de tamagoshi est vide, on affiche le résultat, la partie s'arrete
+		if(this.listeDeTamagoshi.isEmpty()){
+			this.resultat();
 		}
 	}
 	
