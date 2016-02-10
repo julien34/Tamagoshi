@@ -17,7 +17,7 @@ public class TamaJFrameResultat extends JFrame {
 	private int score;
 	
 	private JLabel lblTitre;
-	private AudioClip clip = Applet.newAudioClip(getClass().getResource("../sounds/autres/applaudissements.wav"));;
+	private AudioClip clip = Applet.newAudioClip(getClass().getResource("/sounds/autres/applaudissements.wav"));;
 
 	
 	/**

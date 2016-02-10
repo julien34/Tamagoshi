@@ -23,9 +23,9 @@ public class TamaJPanel extends JPanel{
 	private JButton btnManger;
 	private Tamagoshi tama;
 	private JLabel lblImg;
-	private ImageIcon imgTamagoshi = new ImageIcon(getClass().getResource("../images/tamagoshi.png"));
-	private ImageIcon imgGrosMangeur = new ImageIcon(getClass().getResource("../images/grosmangeur.png"));
-	private ImageIcon imgGrosJoueur = new ImageIcon(getClass().getResource("../images/grosjoueur.png"));
+	private ImageIcon imgTamagoshi = new ImageIcon(getClass().getResource("/images/tamagoshi.png"));
+	private ImageIcon imgGrosMangeur = new ImageIcon(getClass().getResource("/images/grosmangeur.png"));
+	private ImageIcon imgGrosJoueur = new ImageIcon(getClass().getResource("/images/grosjoueur.png"));
 	private JLabel lblBulle = new JLabel("Jouons ensemble !");
 	
 	private HashMap<Integer, String> hmJouer = new HashMap<Integer, String>(20);
@@ -50,7 +50,7 @@ public class TamaJPanel extends JPanel{
 		this.setLayout(new BorderLayout());
 		
 		//On affiche la bulle au dessus des tamagoshis
-		ImageIcon icon = new ImageIcon(new ImageIcon(getClass().getResource("../images/bulle.png")).getImage().getScaledInstance(400, 150, Image.SCALE_DEFAULT));
+		ImageIcon icon = new ImageIcon(new ImageIcon(getClass().getResource("/images/bulle.png")).getImage().getScaledInstance(400, 150, Image.SCALE_DEFAULT));
 		this.lblBulle.setIcon(icon);
 		
 		//On affiche le texte dans la bulle
@@ -164,15 +164,15 @@ public class TamaJPanel extends JPanel{
 	public void setImg(int i){
 		switch (i) {
 		case 1:
-			ImageIcon imgTamagoshiMort = new ImageIcon(getClass().getResource("../images/tamagoshiMort.png"));
+			ImageIcon imgTamagoshiMort = new ImageIcon(getClass().getResource("/images/tamagoshiMort.png"));
 			this.lblImg.setIcon(imgTamagoshiMort);
 			break;
 		case 2:
-			ImageIcon imgGrosMangeurMort = new ImageIcon(getClass().getResource("../images/grosmangeurMort.png"));
+			ImageIcon imgGrosMangeurMort = new ImageIcon(getClass().getResource("/images/grosmangeurMort.png"));
 			this.lblImg.setIcon(imgGrosMangeurMort);
 			break;
 		case 3:
-			ImageIcon imgGrosJoueurMort = new ImageIcon(getClass().getResource("../images/grosjoueurMort.png"));
+			ImageIcon imgGrosJoueurMort = new ImageIcon(getClass().getResource("/images/grosjoueurMort.png"));
 			this.lblImg.setIcon(imgGrosJoueurMort);
 			break;
 
@@ -197,20 +197,20 @@ public class TamaJPanel extends JPanel{
 	private void setSongs(){
 		
 		//Sons pour jouer
-		this.hmJouer.put(0,"../sounds/play/yallah.wav");
-		this.hmJouer.put(1,"../sounds/play/merci-la-gueuse.wav");
-		this.hmJouer.put(2,"../sounds/play/feel-like-this.wav");
-		this.hmJouer.put(3,"../sounds/play/vous-ne-vous-reposer-jamais-vous.wav");
-		this.hmJouer.put(4,"../sounds/play/tarzan.wav");
+		this.hmJouer.put(0,"/sounds/play/yallah.wav");
+		this.hmJouer.put(1,"/sounds/play/merci-la-gueuse.wav");
+		this.hmJouer.put(2,"/sounds/play/feel-like-this.wav");
+		this.hmJouer.put(3,"/sounds/play/vous-ne-vous-reposer-jamais-vous.wav");
+		this.hmJouer.put(4,"/sounds/play/tarzan.wav");
 		
 		//Sons pour manger
-		this.hmManger.put(0,"../sounds/eat/ou-sont-les-poulardes.wav");
-		this.hmManger.put(1,"../sounds/eat/cest-tres-bon.wav");
-		this.hmManger.put(2,"../sounds/eat/cest-tres-fin.wav");
-		this.hmManger.put(3,"../sounds/eat/cette-vinasse.wav");
-		this.hmManger.put(4,"../sounds/eat/obelix-tombe-dedans.wav");
-		this.hmManger.put(5,"../sounds/eat/on-va-se-goinfrer.wav");
-		this.hmManger.put(6,"../sounds/eat/ou-sont-les-poulardes.wav");
+		this.hmManger.put(0,"/sounds/eat/ou-sont-les-poulardes.wav");
+		this.hmManger.put(1,"/sounds/eat/cest-tres-bon.wav");
+		this.hmManger.put(2,"/sounds/eat/cest-tres-fin.wav");
+		this.hmManger.put(3,"/sounds/eat/cette-vinasse.wav");
+		this.hmManger.put(4,"/sounds/eat/obelix-tombe-dedans.wav");
+		this.hmManger.put(5,"/sounds/eat/on-va-se-goinfrer.wav");
+		this.hmManger.put(6,"/sounds/eat/ou-sont-les-poulardes.wav");
 	}
 	
 	
