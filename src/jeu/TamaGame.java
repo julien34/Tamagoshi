@@ -298,10 +298,9 @@ public class TamaGame {
 	
 	
 	/**
-	 * Méthode main qui permet de vérifier et tester la classe TamaGame.
-	 * @param args
+	 * Méthode qui permet de vérifier et tester la classe TamaGame.
 	 */
-	public static void main(String args[]){
+	public void jouer(){
 		jeu.initialisation();
 	}
 	
