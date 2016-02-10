@@ -16,7 +16,7 @@ import jeu.TamaGame;
 
 public class TamaJFrameMain extends JFrame{
 	
-	private JMenuItem jmiJouer, jmiAide;
+	private JMenuItem jmiJouer, jmiQuitter, jmiAide, jmiVersion;
 	
 	public TamaJFrameMain(){
 		this.initElements();
@@ -46,10 +46,14 @@ public class TamaJFrameMain extends JFrame{
 		JMenu jmFichier = new JMenu("Fichier");
 		JMenu jmAide = new JMenu("Aide");
 		this.jmiJouer = new JMenuItem("Jouer");
+		this.jmiQuitter = new JMenuItem("Quitter");
 		this.jmiAide = new JMenuItem("Aide");
+		this.jmiVersion = new JMenuItem("Version");
 		
 		jmFichier.add(jmiJouer);
+		jmFichier.add(jmiQuitter);
 		jmAide.add(jmiAide);
+		jmAide.add(jmiVersion);
 		
 		jmb.add(jmFichier);
 		jmb.add(jmAide);
@@ -76,11 +80,20 @@ public class TamaJFrameMain extends JFrame{
 		});
 		
 		//Btn aide de la barre des menus
-		this.jmiAide.addActionListener(new ActionListener() {
+		this.jmiVersion.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JOptionPane.showMessageDialog(null, "Version 1.0.2", "Aide", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		//btn quitter de la barre des menus
+		this.jmiQuitter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
 			}
 		});
 	}
