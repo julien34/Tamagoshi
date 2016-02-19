@@ -16,7 +16,7 @@ import jeu.TamaGame;
 
 public class TamaJFrameMain extends JFrame{
 	
-	private JMenuItem jmiJouer, jmiQuitter, jmiAide, jmiVersion;
+	private JMenuItem jmiJouer, jmiQuitter, jmiInformation, jmiVersion;
 	
 	public TamaJFrameMain(){
 		this.initElements();
@@ -47,12 +47,12 @@ public class TamaJFrameMain extends JFrame{
 		JMenu jmAide = new JMenu("Aide");
 		this.jmiJouer = new JMenuItem("Jouer");
 		this.jmiQuitter = new JMenuItem("Quitter");
-		this.jmiAide = new JMenuItem("Aide");
+		this.jmiInformation = new JMenuItem("Information");
 		this.jmiVersion = new JMenuItem("Version");
 		
 		jmFichier.add(jmiJouer);
 		jmFichier.add(jmiQuitter);
-		jmAide.add(jmiAide);
+		jmAide.add(jmiInformation);
 		jmAide.add(jmiVersion);
 		
 		jmb.add(jmFichier);
@@ -84,7 +84,16 @@ public class TamaJFrameMain extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "Version 1.0.2", "Aide", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Version 1.0.2", "Information", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		
+		//Btn d'aide de la barre des menus
+		this.jmiInformation.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(null, "Pour plus d'informations, rendez-vous ici : http://www.github.com/julien34", "Aide", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		

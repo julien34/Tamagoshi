@@ -49,6 +49,12 @@ public class TamaGame {
 	 */
 	private void initialisation(){
 		
+		//On réinitialise tout (dans le cas ou ce n'est pas la première partie)
+		this.nbTours = 0;
+		this.listeDeTamagoshi.clear();
+		this.listeDeTamagoshiMort.clear();
+		listeDesFenetres.clear();
+		
 		//On ajoute des prénoms à l'arraylist :
 		this.ajoutPrenoms();
 		
@@ -268,9 +274,6 @@ public class TamaGame {
 		}
 		
 	}
-	
-	
-	
 	
 	
 	/**
